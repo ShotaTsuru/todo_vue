@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-  <title>Vue.js</title>
-  <link rel="stylesheet" href="sample.css">
+  <title>todo_Vue</title>
+  <link rel="stylesheet" href="index.css">
   <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
@@ -19,9 +19,9 @@
     <ul>
       <todo-item
         v-for="(todo, index) in todos"
-        :key="todo.id"
+
         :title="todo.title"
-        @remove="todos.splice(index, 1)"
+        @remove="removeTodo(todo.id), todos.splice(index, 1)"
       ></todo-item>
     </ul>
   </div>
