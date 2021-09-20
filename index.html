@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <title>todo_Vue</title>
+  <link rel="stylesheet" href="index.css">
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="todo-list-example">
+    <form v-on:submit.prevent="addNewTodo" ref="editor">
+      <label for="new-todo">Add a todo</label>
+      <input
+        v-model="newTodoText"
+        id="new-todo"
+        placeholder="E.g. Feed the cat"
+      />
+      <button>{{ changeButton }}</button>
+    </form>
+    <ul>
+      <todo-item
+        v-for="(todo, index) in todos"
+
+        :title="todo.title"
+        @remove="removeTodo(todo.id), todos.splice(index, 1)"
+        @edit="editTodo(index)"
+      ></todo-item>
+    </ul>
+  </div>
+  <script type="text/javascript" src="index.js"></script>  
+</body>
