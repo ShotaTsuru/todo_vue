@@ -9,23 +9,42 @@ const app = Vue.createApp({
     return {
       newTodoText: '',
       todos: todos,
-      nextTodoId: Math.max(...todos.map((p)=> p.id))
+      nextTodoId: Math.max(...todos.map((p)=> p.id)),
+      editIndex: -1,
+    }
+  },
+  computed: {
+    changeButton() {
+      return this.editIndex === -1 ? "Add" : "Edit"
     }
   },
   methods: {
     addNewTodo() {
-      this.todos.push({
-        id: this.nextTodoId++,
-        title: this.newTodoText
-      })
-      localStorage.setItem(this.nextTodoId, this.newTodoText);
+      if(this.editIndex === -1) {
+        this.todos.push({
+          id: this.nextTodoId++,
+          title: this.newTodoText
+        })
+        localStorage.setItem(this.nextTodoId, this.newTodoText);
+      } else {
+        this.todos.splice(this.editIndex, 1, {
+          id: this.nextTodoId,
+          title: this.newTodoText
+        });
+        localStorage.setItem(this.nextTodoId, this.newTodoText);
+      }
+      this.editIndex = -1;
       this.newTodoText = '';
     },
     removeTodo(id) {
       console.log(id);
       localStorage.removeItem(id);
     },
-    editTodo() {
+    editTodo(index) {
+      this.editIndex = index;
+      this.newTodoText = this.todos[index]['title'];
+      this.$refs.editor.focus();
+      console.log(1);
 
     }
   }
@@ -40,7 +59,7 @@ app.component('todo-item', {
     </li>
   `,
   props: ['title'],
-  emits: ['remove']
+  emits: ['remove', 'edit']
 })
 
 app.mount('#todo-list-example')
